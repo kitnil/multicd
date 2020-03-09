@@ -20,11 +20,11 @@ pipeline {
         stage("Fetch sources") {
             steps {
                 script {
-                    ["http://www.tinycorelinux.net/11.x/x86/release/CorePlus-current.iso",
-                     "https://ftp.gnu.org/gnu/guix/guix-system-install-1.0.1.x86_64-linux.iso.xz"].each{
+                    ["http://iso.wugi.info/TinyCore-current.iso",
+                     "http://iso.wugi.info/guix-system-install-1.0.1.x86_64-linux.iso.xz"].each{
                         sh "wget --continue $it"
                     }
-                    sh "xz -d guix-system-install-1.0.1.system.iso.xz"
+                    sh "xz -d guix-system-install-1.0.1.x86_64-linux.iso.xz"
                 }
             }
         }
