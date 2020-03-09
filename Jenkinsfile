@@ -19,7 +19,13 @@ pipeline {
         }
         stage("Fetch sources") {
             steps {
-                sh "wget --continue http://www.tinycorelinux.net/11.x/x86/release/CorePlus-current.iso"
+                script {
+                    ["http://www.tinycorelinux.net/11.x/x86/release/CorePlus-current.iso",
+                     "https://ftp.gnu.org/gnu/guix/guix-system-install-1.0.1.x86_64-linux.iso.xz"].each{
+                        sh "wget --continue $it"
+                    }
+                    sh "xz -d guix-system-install-1.0.1.system.iso.xz"
+                }
             }
         }
         stage("Build iso") {
