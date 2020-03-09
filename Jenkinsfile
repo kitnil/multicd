@@ -20,11 +20,11 @@ pipeline {
         stage("Fetch sources") {
             steps {
                 script {
-                    ["http://iso.wugi.info/TinyCore-current.iso",
-                     "http://iso.wugi.info/guix-system-install-1.0.1.x86_64-linux.iso.xz"].each{
-                        sh "wget --continue $it"
+                    ["TinyCore-current.iso",
+                     "debian-live-10.2.0-amd64-xfce.iso",
+                     "clonezilla-live-2.6.0-37-i686.iso"].each{
+                        sh "wget --continue http://iso.wugi.info/$it"
                     }
-                    sh "xz -d guix-system-install-1.0.1.x86_64-linux.iso.xz"
                 }
             }
         }
