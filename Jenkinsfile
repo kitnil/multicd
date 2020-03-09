@@ -10,14 +10,16 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
-    triggers {
-        cron(env.BRANCH_NAME == "master" ? "H 15 * * 1-5" : "")
-    }
     stages {
         stage("Invoking Docker") {
             when { expression { params.BUILD_IMAGE } }
             steps {
                 sh "docker build -t localhost:5000/multicd:latest ."
+            }
+        }
+        stage("Fetch sources") {
+            steps {
+                sh "wget --continue http://www.tinycorelinux.net/11.x/x86/release/CorePlus-current.iso"
             }
         }
         stage("Build iso") {
@@ -26,7 +28,7 @@ pipeline {
 docker run                                      \
  --rm                                           \
  --network=host                                 \
- --volume /home/oleg/src/multicd:/opt/multicd   \
+ --volume $WORKSPACE:/opt/multicd               \
  --cap-add=SYS_ADMIN                            \
  --device /dev/loop0                            \
  --device /dev/loop-control                     \
@@ -35,6 +37,7 @@ docker run                                      \
  localhost:5000/multicd:latest                  \
  ./multicd.sh
 """
+                sh "sudo chown --recursive 1000:1000 build"
                 archiveArtifacts (artifacts: "build/multicd.iso")
             }
         }
