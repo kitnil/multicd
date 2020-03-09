@@ -35,6 +35,7 @@ docker run                                      \
  localhost:5000/multicd:latest                  \
  ./multicd.sh
 """
+                archiveArtifacts (artifacts: "build/multicd.iso")
             }
         }
     }
