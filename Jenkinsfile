@@ -22,7 +22,8 @@ pipeline {
                 script {
                     ["TinyCore-current.iso",
                      "debian-live-10.2.0-amd64-xfce.iso",
-                     "clonezilla-live-2.6.0-37-i686.iso"].each{
+                     "clonezilla-live-2.6.0-37-i686.iso",
+                     "netboot.xyz.iso"].each{
                         sh "wget --continue http://iso.wugi.info/$it"
                     }
                 }
